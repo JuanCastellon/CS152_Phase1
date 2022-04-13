@@ -87,7 +87,7 @@ COMMENT  ##(.)*
    [\t]                 {/*Ignore White Space*/ currPos += yyleng;}
    {COMMENT}            {/*Ignore Comments   */ currLine++; currPos = 1;}
    "\n"                 {/*New Line*/ currLine++; currPos = 1;}
-   {INVALID2}           {printf("ERORR at line %d: identifier %s must begin with a letter\n", currLine, yytext); exit(0);}
+   {INVALID2}           {printf("ERROR at line %d: identifier %s must begin with a letter\n", currLine, yytext); exit(0);}
    .			{printf("ERROR at line %d, column %d: unrecognized symbol \"%s\"\n", currLine, currPos, yytext); exit(0);}
 
 %%

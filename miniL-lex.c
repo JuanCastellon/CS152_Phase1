@@ -1138,7 +1138,7 @@ YY_RULE_SETUP
 case 56:
 YY_RULE_SETUP
 #line 90 "miniL.lex"
-{printf("ERORR at line %d: identifier %s must begin with a letter\n", currLine, yytext); exit(0);}
+{printf("ERROR at line %d: identifier %s must begin with a letter\n", currLine, yytext); exit(0);}
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
