@@ -13,7 +13,12 @@
 %}
 
  /* some common rules */
-DIGIT	[0-9]
+DIGIT	 [0-9]
+INVALID1 {IDENT}_
+IDENT    ([a-zA-Z])([a-zA-Z0-9_]*)
+INVALID2 [0-9]{IDENT}
+COMMENT  ##(.)*
+
 
 %%
    /* specific lexer rules in regex */
@@ -76,8 +81,13 @@ DIGIT	[0-9]
 
    /*Identifiers and Numbers*/
    {DIGIT}+             {printf("NUMBER %s\n", yytext); currPos += yyleng;}
-   [\t]+                {/*Ignore White Space*/ currPos += yyleng;}
+   {INVALID1}           {printf("ERROR at line %d: identifier %s cannot start with an underscore\n", currLine, yytext); exit(0);}
+   {IDENT}              {printf("IDENT %s\n", yytext); currPos += yyleng;}
+   " "			{/*Ignore White Space*/ currPos += yyleng;}
+   [\t]                 {/*Ignore White Space*/ currPos += yyleng;}
+   {COMMENT}            {/*Ignore Comments   */ currLine++; currPos = 1;}
    "\n"                 {/*New Line*/ currLine++; currPos = 1;}
+   {INVALID2}           {printf("ERORR at line %d: identifier %s must begin with a letter\n", currLine, yytext); exit(0);}
    .			{printf("ERROR at line %d, column %d: unrecognized symbol \"%s\"\n", currLine, currPos, yytext); exit(0);}
 
 %%
